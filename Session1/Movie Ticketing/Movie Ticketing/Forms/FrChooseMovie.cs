@@ -20,11 +20,14 @@ namespace Movie_Ticketing.Forms
             InitializeComponent();
         }
 
+        #region Declaration
         private List<Schedule> Schedules;
         private string time = "";
         private string title = "";
         private int studio;
+        #endregion
 
+        #region Methods
         private List<Schedule> GetSchedules()
         {
             using (SampleDataContext db = new SampleDataContext())
@@ -60,6 +63,11 @@ namespace Movie_Ticketing.Forms
             }
         }
 
+        private void GetScheduleId()
+        {
+
+        }
+
         private void RefreshDGV()
         {
             DGVSchedule.Rows.Clear();
@@ -76,7 +84,9 @@ namespace Movie_Ticketing.Forms
                     s.Times[4]);
             }
         }
-        
+        #endregion
+
+        #region Events
         private void FrChooseMovie_Load(object sender, EventArgs e)
         {
             RefreshDGV();
@@ -113,5 +123,6 @@ namespace Movie_Ticketing.Forms
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
     }
 }

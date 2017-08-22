@@ -23,15 +23,19 @@ namespace Movie_Ticketing.Forms
             this.TicketCount = TicketCount;
         }
 
+        #region Declaration
         private string FilmTitle;
         private int Studio;
         private int TicketCount;
         private int TotalCount;
+        private int ScheduleID;
         private string Time;
         private FrChooseMovie frmovie;
         private string[] Prefixes = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
         private List<bool> ChairBool = new List<bool>();
+        #endregion
 
+        #region Methods
         private int GetChairIndex(Button btn)
         {
             return MainPnl.Controls.IndexOf(btn);
@@ -75,6 +79,29 @@ namespace Movie_Ticketing.Forms
             }
         }
 
+        private void InitialState()
+        {
+            LblStudio.Text = "Studio " + Studio;
+            LblTime.Text = Time;
+            LblTitle.Text = FilmTitle;
+            LblTicket.Text = "Remaining Order Ticket: " + TicketCount;
+            GetChair();
+        }
+
+        private bool CheckAvailability(int ScheduleID, int ChairID)
+        {
+            using (SampleDataContext db = new SampleDataContext())
+            {
+                detailschedule detail = db.detailschedules
+                    .Where(d => d.scheduleid.Equals(ScheduleID) && d.nokursi.Equals(ChairID))
+                    .FirstOrDefault();
+                if (detail == null) return false;
+                return true;
+            }
+        }
+        #endregion
+
+        #region Events
         private void Btn_Click(object sender, EventArgs e)
         {
             if(TicketCount != 0)
@@ -98,20 +125,10 @@ namespace Movie_Ticketing.Forms
             }
         }
 
-        private void InitialState()
-        {
-            LblStudio.Text = "Studio " + Studio;
-            LblTime.Text = Time;
-            LblTitle.Text = FilmTitle;
-            LblTicket.Text = "Remaining Order Ticket: " + TicketCount;
-            GetChair();
-        }
-
         private void FrChooseTicket_Load(object sender, EventArgs e)
         {
             try
             {
-                this.WindowState = FormWindowState.Maximized;
                 InitialState();
             }
             catch (Exception ex)
@@ -138,5 +155,6 @@ namespace Movie_Ticketing.Forms
                 MessageBox.Show("Total Price: " + TotalCount * 50000, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        #endregion
     }
 }
