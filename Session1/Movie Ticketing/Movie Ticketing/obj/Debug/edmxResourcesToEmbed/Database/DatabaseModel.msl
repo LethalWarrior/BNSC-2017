@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="bioskopModelStoreContainer" CdmEntityContainer="SampleEntities">
+    <EntitySetMapping Name="detailschedules">
+      <EntityTypeMapping TypeName="bioskopModel.detailschedule">
+        <MappingFragment StoreEntitySet="detailschedule">
+          <ScalarProperty Name="detailid" ColumnName="detailid" />
+          <ScalarProperty Name="scheduleid" ColumnName="scheduleid" />
+          <ScalarProperty Name="nokursi" ColumnName="nokursi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="headerschedules">
+      <EntityTypeMapping TypeName="bioskopModel.headerschedule">
+        <MappingFragment StoreEntitySet="headerschedule">
+          <ScalarProperty Name="scheduleid" ColumnName="scheduleid" />
+          <ScalarProperty Name="mappingid" ColumnName="mappingid" />
+          <ScalarProperty Name="time" ColumnName="time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mappings">
+      <EntityTypeMapping TypeName="bioskopModel.mapping">
+        <MappingFragment StoreEntitySet="mapping">
+          <ScalarProperty Name="mappingid" ColumnName="mappingid" />
+          <ScalarProperty Name="studiono" ColumnName="studiono" />
+          <ScalarProperty Name="filmid" ColumnName="filmid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="msfilms">
+      <EntityTypeMapping TypeName="bioskopModel.msfilm">
+        <MappingFragment StoreEntitySet="msfilm">
+          <ScalarProperty Name="filmid" ColumnName="filmid" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstudios">
+      <EntityTypeMapping TypeName="bioskopModel.mstudio">
+        <MappingFragment StoreEntitySet="mstudio">
+          <ScalarProperty Name="studiono" ColumnName="studiono" />
+          <ScalarProperty Name="group" ColumnName="group" />
+          <ScalarProperty Name="row" ColumnName="row" />
+          <ScalarProperty Name="column" ColumnName="column" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

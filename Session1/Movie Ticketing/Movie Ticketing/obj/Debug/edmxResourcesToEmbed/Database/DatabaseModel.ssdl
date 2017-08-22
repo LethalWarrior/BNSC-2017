@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bioskopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="detailschedule">
+    <Key>
+      <PropertyRef Name="detailid" />
+    </Key>
+    <Property Name="detailid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="scheduleid" Type="int" />
+    <Property Name="nokursi" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="headerschedule">
+    <Key>
+      <PropertyRef Name="scheduleid" />
+    </Key>
+    <Property Name="scheduleid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="mappingid" Type="int" />
+    <Property Name="time" Type="datetime" />
+  </EntityType>
+  <EntityType Name="mapping">
+    <Key>
+      <PropertyRef Name="mappingid" />
+    </Key>
+    <Property Name="mappingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="studiono" Type="int" />
+    <Property Name="filmid" Type="int" />
+  </EntityType>
+  <EntityType Name="msfilm">
+    <Key>
+      <PropertyRef Name="filmid" />
+    </Key>
+    <Property Name="filmid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="nvarchar" MaxLength="50" />
+    <Property Name="duration" Type="int" />
+  </EntityType>
+  <EntityType Name="mstudio">
+    <Key>
+      <PropertyRef Name="studiono" />
+    </Key>
+    <Property Name="studiono" Type="int" Nullable="false" />
+    <Property Name="group" Type="int" />
+    <Property Name="row" Type="int" />
+    <Property Name="column" Type="int" />
+  </EntityType>
+  <Association Name="FK_detailschedule_headerschedule">
+    <End Role="headerschedule" Type="Self.headerschedule" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="detailschedule" Type="Self.detailschedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="headerschedule">
+        <PropertyRef Name="scheduleid" />
+      </Principal>
+      <Dependent Role="detailschedule">
+        <PropertyRef Name="scheduleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_headerschedule_mapping">
+    <End Role="mapping" Type="Self.mapping" Multiplicity="0..1" />
+    <End Role="headerschedule" Type="Self.headerschedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mapping">
+        <PropertyRef Name="mappingid" />
+      </Principal>
+      <Dependent Role="headerschedule">
+        <PropertyRef Name="mappingid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_mapping_msfilm">
+    <End Role="msfilm" Type="Self.msfilm" Multiplicity="0..1" />
+    <End Role="mapping" Type="Self.mapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="msfilm">
+        <PropertyRef Name="filmid" />
+      </Principal>
+      <Dependent Role="mapping">
+        <PropertyRef Name="filmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_mapping_mstudio">
+    <End Role="mstudio" Type="Self.mstudio" Multiplicity="0..1" />
+    <End Role="mapping" Type="Self.mapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstudio">
+        <PropertyRef Name="studiono" />
+      </Principal>
+      <Dependent Role="mapping">
+        <PropertyRef Name="studiono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="bioskopModelStoreContainer">
+    <EntitySet Name="detailschedule" EntityType="Self.detailschedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="headerschedule" EntityType="Self.headerschedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="mapping" EntityType="Self.mapping" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="msfilm" EntityType="Self.msfilm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="mstudio" EntityType="Self.mstudio" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_detailschedule_headerschedule" Association="Self.FK_detailschedule_headerschedule">
+      <End Role="headerschedule" EntitySet="headerschedule" />
+      <End Role="detailschedule" EntitySet="detailschedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_headerschedule_mapping" Association="Self.FK_headerschedule_mapping">
+      <End Role="mapping" EntitySet="mapping" />
+      <End Role="headerschedule" EntitySet="headerschedule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_mapping_msfilm" Association="Self.FK_mapping_msfilm">
+      <End Role="msfilm" EntitySet="msfilm" />
+      <End Role="mapping" EntitySet="mapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_mapping_mstudio" Association="Self.FK_mapping_mstudio">
+      <End Role="mstudio" EntitySet="mstudio" />
+      <End Role="mapping" EntitySet="mapping" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

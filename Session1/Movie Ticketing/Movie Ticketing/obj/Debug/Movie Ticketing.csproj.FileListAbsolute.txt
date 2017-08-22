@@ -1,0 +1,11 @@
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\bin\Debug\Movie Ticketing.exe.config
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie Ticketing.csprojResolveAssemblyReference.cache
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie_Ticketing.Forms.FrChooseMovie.resources
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie_Ticketing.Properties.Resources.resources
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie Ticketing.csproj.GenerateResource.Cache
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\bin\Debug\Movie Ticketing.exe
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\bin\Debug\Movie Ticketing.pdb
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\bin\Debug\EntityFramework.xml
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie Ticketing.exe
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie Ticketing.pdb
+D:\Latihan C#\BNSC2017 Review\Session1\Movie Ticketing\Movie Ticketing\obj\Debug\Movie_Ticketing.Forms.FrChooseTicket.resources

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bioskopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="detailschedule">
+    <Key>
+      <PropertyRef Name="detailid" />
+    </Key>
+    <Property Name="detailid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="scheduleid" Type="Int32" />
+    <Property Name="nokursi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="headerschedule" Relationship="Self.FK_detailschedule_headerschedule" FromRole="detailschedule" ToRole="headerschedule" />
+  </EntityType>
+  <EntityType Name="headerschedule">
+    <Key>
+      <PropertyRef Name="scheduleid" />
+    </Key>
+    <Property Name="scheduleid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="mappingid" Type="Int32" />
+    <Property Name="time" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="detailschedules" Relationship="Self.FK_detailschedule_headerschedule" FromRole="headerschedule" ToRole="detailschedule" />
+    <NavigationProperty Name="mapping" Relationship="Self.FK_headerschedule_mapping" FromRole="headerschedule" ToRole="mapping" />
+  </EntityType>
+  <EntityType Name="mapping">
+    <Key>
+      <PropertyRef Name="mappingid" />
+    </Key>
+    <Property Name="mappingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="studiono" Type="Int32" />
+    <Property Name="filmid" Type="Int32" />
+    <NavigationProperty Name="headerschedules" Relationship="Self.FK_headerschedule_mapping" FromRole="mapping" ToRole="headerschedule" />
+    <NavigationProperty Name="msfilm" Relationship="Self.FK_mapping_msfilm" FromRole="mapping" ToRole="msfilm" />
+    <NavigationProperty Name="mstudio" Relationship="bioskopModel.FK_mapping_mstudio" FromRole="mapping" ToRole="mstudio" />
+  </EntityType>
+  <EntityType Name="msfilm">
+    <Key>
+      <PropertyRef Name="filmid" />
+    </Key>
+    <Property Name="filmid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="duration" Type="Int32" />
+    <NavigationProperty Name="mappings" Relationship="Self.FK_mapping_msfilm" FromRole="msfilm" ToRole="mapping" />
+  </EntityType>
+  <EntityType Name="mstudio">
+    <Key>
+      <PropertyRef Name="studiono" />
+    </Key>
+    <Property Name="studiono" Type="Int32" Nullable="false" />
+    <Property Name="group" Type="Int32" />
+    <Property Name="row" Type="Int32" />
+    <Property Name="column" Type="Int32" />
+    <NavigationProperty Name="mappings" Relationship="bioskopModel.FK_mapping_mstudio" FromRole="mstudio" ToRole="mapping" />
+  </EntityType>
+  <Association Name="FK_detailschedule_headerschedule">
+    <End Role="headerschedule" Type="Self.headerschedule" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="detailschedule" Type="Self.detailschedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="headerschedule">
+        <PropertyRef Name="scheduleid" />
+      </Principal>
+      <Dependent Role="detailschedule">
+        <PropertyRef Name="scheduleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_headerschedule_mapping">
+    <End Role="mapping" Type="Self.mapping" Multiplicity="0..1" />
+    <End Role="headerschedule" Type="Self.headerschedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mapping">
+        <PropertyRef Name="mappingid" />
+      </Principal>
+      <Dependent Role="headerschedule">
+        <PropertyRef Name="mappingid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_mapping_msfilm">
+    <End Role="msfilm" Type="Self.msfilm" Multiplicity="0..1" />
+    <End Role="mapping" Type="Self.mapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="msfilm">
+        <PropertyRef Name="filmid" />
+      </Principal>
+      <Dependent Role="mapping">
+        <PropertyRef Name="filmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SampleEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="detailschedules" EntityType="Self.detailschedule" />
+    <EntitySet Name="headerschedules" EntityType="Self.headerschedule" />
+    <EntitySet Name="mappings" EntityType="Self.mapping" />
+    <EntitySet Name="msfilms" EntityType="Self.msfilm" />
+    <EntitySet Name="mstudios" EntityType="Self.mstudio" />
+    <AssociationSet Name="FK_detailschedule_headerschedule" Association="Self.FK_detailschedule_headerschedule">
+      <End Role="headerschedule" EntitySet="headerschedules" />
+      <End Role="detailschedule" EntitySet="detailschedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_headerschedule_mapping" Association="Self.FK_headerschedule_mapping">
+      <End Role="mapping" EntitySet="mappings" />
+      <End Role="headerschedule" EntitySet="headerschedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_mapping_msfilm" Association="Self.FK_mapping_msfilm">
+      <End Role="msfilm" EntitySet="msfilms" />
+      <End Role="mapping" EntitySet="mappings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_mapping_mstudio" Association="bioskopModel.FK_mapping_mstudio">
+      <End Role="mstudio" EntitySet="mstudios" />
+      <End Role="mapping" EntitySet="mappings" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_mapping_mstudio">
+    <End Type="bioskopModel.mstudio" Role="mstudio" Multiplicity="0..1" />
+    <End Type="bioskopModel.mapping" Role="mapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstudio">
+        <PropertyRef Name="studiono" />
+      </Principal>
+      <Dependent Role="mapping">
+        <PropertyRef Name="studiono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

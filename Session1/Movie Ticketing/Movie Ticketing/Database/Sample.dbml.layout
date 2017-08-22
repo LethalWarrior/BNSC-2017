@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.25, 8.5" name="Sample">
+  <DataContextMoniker Name="/SampleDataContext" />
+  <nestedChildShapes>
+    <classShape Id="1d15a5bb-f852-46a9-853f-b4e78cdd39fb" absoluteBounds="9, 0.875, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/SampleDataContext/detailschedule" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9379893b-870d-45fc-acc3-d725e5eba483" absoluteBounds="9.015, 1.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="310fbff9-1a5d-4ae5-9422-4a2570262b27" absoluteBounds="0.75, 3.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SampleDataContext/mstudio" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1bc016dd-0842-4f56-8284-19575831ae51" absoluteBounds="0.765, 4.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="34ec5666-87b7-4bdc-843c-34587b954080" absoluteBounds="6.25, 0.875, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/SampleDataContext/headerschedule" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fa665ede-206b-43f4-886b-2f7c150b6840" absoluteBounds="6.265, 1.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="43c06171-1b08-4ed2-a799-e4a11ce72ce5" absoluteBounds="3.5, 0.875, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/SampleDataContext/mapping" />
+      <nestedChildShapes>
+        <elementListCompartment Id="68770778-79cb-461e-b2b4-c961d4cfd3dc" absoluteBounds="3.515, 1.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="06e3f596-1d57-479d-aa99-d8890b165732" absoluteBounds="0.75, 0.875, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/SampleDataContext/msfilm" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3291b359-b509-4d3b-b0b2-b4f33dcbab33" absoluteBounds="0.765, 1.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.25 : 1.56814697265625); (9 : 1.56814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SampleDataContext/headerschedule/headerschedule_detailschedule" />
+      <nodes>
+        <classShapeMoniker Id="34ec5666-87b7-4bdc-843c-34587b954080" />
+        <classShapeMoniker Id="1d15a5bb-f852-46a9-853f-b4e78cdd39fb" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 1.56814697265625); (6.25 : 1.56814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SampleDataContext/mapping/mapping_headerschedule" />
+      <nodes>
+        <classShapeMoniker Id="43c06171-1b08-4ed2-a799-e4a11ce72ce5" />
+        <classShapeMoniker Id="34ec5666-87b7-4bdc-843c-34587b954080" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 4.53929768880208); (4.5 : 4.53929768880208); (4.5 : 2.2612939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SampleDataContext/mstudio/mstudio_mapping" />
+      <nodes>
+        <classShapeMoniker Id="310fbff9-1a5d-4ae5-9422-4a2570262b27" />
+        <classShapeMoniker Id="43c06171-1b08-4ed2-a799-e4a11ce72ce5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 1.56814697265625); (3.5 : 1.56814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SampleDataContext/msfilm/msfilm_mapping" />
+      <nodes>
+        <classShapeMoniker Id="06e3f596-1d57-479d-aa99-d8890b165732" />
+        <classShapeMoniker Id="43c06171-1b08-4ed2-a799-e4a11ce72ce5" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
