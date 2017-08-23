@@ -125,6 +125,7 @@
             this.TbxTicket.Name = "TbxTicket";
             this.TbxTicket.Size = new System.Drawing.Size(146, 23);
             this.TbxTicket.TabIndex = 2;
+            this.TbxTicket.TextChanged += new System.EventHandler(this.TbxTicket_TextChanged);
             // 
             // label2
             // 

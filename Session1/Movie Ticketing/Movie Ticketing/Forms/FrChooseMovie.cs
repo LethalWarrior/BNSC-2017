@@ -22,10 +22,9 @@ namespace Movie_Ticketing.Forms
 
         #region Declaration
         private List<Schedule> Schedules;
-        private string time = "";
-        private string title = "";
-        private int studio;
-        private int scheduleid;
+        private string time = "", title = "";
+        private int studio, scheduleid;
+        private ErrorProvider Eprov = new ErrorProvider();
         #endregion
 
         #region Methods
@@ -126,6 +125,17 @@ namespace Movie_Ticketing.Forms
         {
             try
             {
+                if (string.IsNullOrEmpty(time))
+                {
+                    MessageBox.Show("Please Choose Time!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (string.IsNullOrEmpty(TbxTicket.Text) || TbxTicket.Text == "0")
+                {
+                    MessageBox.Show("Wrong Input!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Eprov.SetError(TbxTicket, "Can't be null or Zero!");
+                    return;
+                }
                 FrChooseTicket frticket = new FrChooseTicket(this.studio, this.scheduleid, int.Parse(TbxTicket.Text), this.time, this.title, this);
                 frticket.Show();
                 this.Hide();
@@ -136,5 +146,12 @@ namespace Movie_Ticketing.Forms
             }
         }
         #endregion
+
+        private void TbxTicket_TextChanged(object sender, EventArgs e)
+        {
+            Regex reg = new Regex("[1-9][0-9]*");
+            if (!(reg.IsMatch(TbxTicket.Text))) Eprov.SetError(TbxTicket, "Must be number and greater than zero!");
+            else Eprov.SetError(TbxTicket, "");
+        }
     }
 }
