@@ -13,7 +13,7 @@ namespace Movie_Ticketing.Forms
 {
     public partial class FrChooseTicket : Form
     {
-        public FrChooseTicket(int Studio, int TicketCount, string Time, string FilmTitle, FrChooseMovie frmovie)
+        public FrChooseTicket(int Studio, int ScheduleID, int TicketCount, string Time, string FilmTitle, FrChooseMovie frmovie)
         {
             InitializeComponent();
             this.FilmTitle = FilmTitle;
@@ -21,6 +21,7 @@ namespace Movie_Ticketing.Forms
             this.Studio = Studio;
             this.frmovie = frmovie;
             this.TicketCount = TicketCount;
+            this.ScheduleID = ScheduleID;
         }
 
         #region Declaration
@@ -33,6 +34,7 @@ namespace Movie_Ticketing.Forms
         private FrChooseMovie frmovie;
         private string[] Prefixes = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
         private List<bool> ChairBool = new List<bool>();
+        private List<string> ChairNumbers = new List<string>();
         #endregion
 
         #region Methods
@@ -63,10 +65,14 @@ namespace Movie_Ticketing.Forms
                             Text = Prefixes[i] + (j + 1).ToString(),
                             Size = new Size(60, 30),
                             Margin = new Padding(2),
-                            Name = "btn" + Total.ToString("D3") 
+                            Name = "btn" + Total.ToString("D3")
                         };
                         MainPnl.Controls.Add(btn);
-                        if (j == ChairPerRow-1) MainPnl.SetFlowBreak(btn, true);
+                        if (CheckAvailability(ScheduleID, GetChairIndex(btn) + 1))
+                        {
+                            btn.Enabled = false; btn.BackColor = Color.Red;
+                        }
+                        if (j == ChairPerRow - 1) MainPnl.SetFlowBreak(btn, true);
                         else if ((j != 0) && (j % Col == 0)) btn.Margin = new Padding(20, 2, 2, 2);
                     }
                 }
@@ -99,12 +105,27 @@ namespace Movie_Ticketing.Forms
                 return true;
             }
         }
+
+        private void SaveReservedSeat()
+        {
+            using (SampleDataContext db = new SampleDataContext())
+            {
+                foreach (string chair in ChairNumbers)
+                {
+                    db.detailschedules.InsertOnSubmit(new detailschedule()
+                    {
+                        scheduleid = ScheduleID,
+                        nokursi = chair
+                    });db.SubmitChanges();
+                }
+            }
+        }
         #endregion
 
         #region Events
         private void Btn_Click(object sender, EventArgs e)
         {
-            if(TicketCount != 0)
+            if (TicketCount != 0)
             {
                 if (ChairBool[GetChairIndex((Button)sender)] == false)
                 {
@@ -113,14 +134,16 @@ namespace Movie_Ticketing.Forms
                     TotalCount += 1;
                     LblTicket.Text = "Remaining Order Ticket: " + TicketCount;
                     ChairBool[GetChairIndex((Button)sender)] = true;
+                    ChairNumbers.Add((GetChairIndex((Button)sender) + 1).ToString());
                 }
-                else if(ChairBool[GetChairIndex((Button)sender)] == true)
+                else if (ChairBool[GetChairIndex((Button)sender)] == true)
                 {
                     ((Button)sender).BackColor = Color.White;
                     TicketCount += 1;
                     TotalCount -= 1;
                     LblTicket.Text = "Remaining Order Ticket: " + TicketCount;
                     ChairBool[GetChairIndex((Button)sender)] = false;
+                    ChairNumbers.Remove((GetChairIndex((Button)sender) + 1).ToString());
                 }
             }
         }
@@ -136,7 +159,7 @@ namespace Movie_Ticketing.Forms
                 MessageBox.Show(ex.Message);
                 this.Close();
                 frmovie.Show();
-            }      
+            }
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
@@ -147,12 +170,16 @@ namespace Movie_Ticketing.Forms
 
         private void BtnFinish_Click(object sender, EventArgs e)
         {
-            if(TicketCount != 0)
+            if (TicketCount != 0)
             {
                 MessageBox.Show("There is remaining order ticket", "Attention!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }else
+            }
+            else
             {
                 MessageBox.Show("Total Price: " + TotalCount * 50000, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SaveReservedSeat();
+                this.Close();
+                frmovie.Show();
             }
         }
         #endregion

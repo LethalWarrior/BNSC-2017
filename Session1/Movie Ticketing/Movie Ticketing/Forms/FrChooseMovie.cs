@@ -25,9 +25,25 @@ namespace Movie_Ticketing.Forms
         private string time = "";
         private string title = "";
         private int studio;
+        private int scheduleid;
         #endregion
 
         #region Methods
+        private void GetScheduleID(int Studio, string time)
+        {
+            using (SampleDataContext db = new SampleDataContext())
+            {
+                var schedule = from hs in db.headerschedules
+                               join m in db.mappings
+                               on hs.mappingid equals m.mappingid
+                               select new { studio = m.studiono, scheduleid = hs.scheduleid, time = hs.time };
+                foreach (var l in schedule)
+                {
+                    if (l.studio == Studio && ((DateTime)l.time).ToString("hh:mm tt") == time) scheduleid = l.scheduleid;
+                }
+            }
+        }
+        
         private List<Schedule> GetSchedules()
         {
             using (SampleDataContext db = new SampleDataContext())
@@ -63,11 +79,6 @@ namespace Movie_Ticketing.Forms
             }
         }
 
-        private void GetScheduleId()
-        {
-
-        }
-
         private void RefreshDGV()
         {
             DGVSchedule.Rows.Clear();
@@ -77,12 +88,12 @@ namespace Movie_Ticketing.Forms
                 DGVSchedule.Rows.Add(
                     s.StudioNo,
                     s.FilmTitle,
-                    s.Times[0],
-                    s.Times[1],
-                    s.Times[2],
-                    s.Times[3],
-                    s.Times[4]);
-            }
+                    s.ScheduleList[0].Time,
+                    s.ScheduleList[1].Time,
+                    s.ScheduleList[2].Time,
+                    s.ScheduleList[3].Time,
+                    s.ScheduleList[4].Time);
+            };
         }
         #endregion
 
@@ -104,6 +115,7 @@ namespace Movie_Ticketing.Forms
                     time = value;
                     title = row.Cells["Title"].Value.ToString();
                     studio = int.Parse(row.Cells["Studio"].Value.ToString());
+                    GetScheduleID(studio, time);
                 }
                 else MessageBox.Show("Please Choose the time!");
 
@@ -114,7 +126,7 @@ namespace Movie_Ticketing.Forms
         {
             try
             {
-                FrChooseTicket frticket = new FrChooseTicket(this.studio, int.Parse(TbxTicket.Text), this.time, this.title, this);
+                FrChooseTicket frticket = new FrChooseTicket(this.studio, this.scheduleid, int.Parse(TbxTicket.Text), this.time, this.title, this);
                 frticket.Show();
                 this.Hide();
             }
