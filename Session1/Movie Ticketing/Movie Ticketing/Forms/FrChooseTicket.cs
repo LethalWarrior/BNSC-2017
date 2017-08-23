@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.IO;
 using Movie_Ticketing.Database;
 
 namespace Movie_Ticketing.Forms
@@ -25,12 +27,8 @@ namespace Movie_Ticketing.Forms
         }
 
         #region Declaration
-        private string FilmTitle;
-        private int Studio;
-        private int TicketCount;
-        private int TotalCount;
-        private int ScheduleID;
-        private string Time;
+        private string FilmTitle, Time;
+        private int Studio, TicketCount, TotalCount, ScheduleID;
         private FrChooseMovie frmovie;
         private string[] Prefixes = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" };
         private List<bool> ChairBool = new List<bool>();
@@ -120,6 +118,32 @@ namespace Movie_Ticketing.Forms
                 }
             }
         }
+
+        private void PrintTicket()
+        {
+            using (SampleDataContext db = new SampleDataContext())
+            {
+                DateTime date = (DateTime)db.headerschedules.Where(d => d.scheduleid == ScheduleID)
+                    .Select(d => d.time)
+                    .FirstOrDefault();
+                List<String> Contents = new List<string>();
+                Button Chair = new Button();
+                foreach (var chair in ChairNumbers)
+                {
+                    Chair = (Button)MainPnl.Controls[Convert.ToInt32(chair) - 1];
+                    Contents.Add(LblTitle.Text);
+                    Contents.Add(LblStudio.Text);
+                    Contents.Add("DATE : " + date.ToString("ddd, dd-MMM"));
+                    Contents.Add("TIME : " + date.ToString("hh:mm tt"));
+                    Contents.Add("SEAT : " + Chair.Text);
+                    Contents.Add("PRICE: 50000");
+                    Contents.Add("---------------------------------------------------------");
+                }
+                File.WriteAllLines(Application.StartupPath + "\\print.txt", Contents);
+                Process.Start("notepad.exe", Application.StartupPath + "\\print.txt");
+            }
+            
+        }
         #endregion
 
         #region Events
@@ -170,17 +194,26 @@ namespace Movie_Ticketing.Forms
 
         private void BtnFinish_Click(object sender, EventArgs e)
         {
-            if (TicketCount != 0)
+            try
             {
-                MessageBox.Show("There is remaining order ticket", "Attention!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (TicketCount != 0)
+                {
+                    MessageBox.Show("There is remaining order ticket", "Attention!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else
+                {
+                    MessageBox.Show("Total Price: " + TotalCount * 50000, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SaveReservedSeat();
+                    PrintTicket();
+                    this.Close();
+                    frmovie.Show();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Total Price: " + TotalCount * 50000, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                SaveReservedSeat();
-                this.Close();
-                frmovie.Show();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+           
         }
         #endregion
     }
